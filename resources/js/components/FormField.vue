@@ -138,7 +138,8 @@ export default {
                 this.value.push({
                     layout: group.layout,
                     key: group.key,
-                    attributes: group.attributes
+                    attributes: group.attributes,
+                    visibility: group.visibility
                 });
 
                 // Attach the files for formData appending
@@ -193,7 +194,8 @@ export default {
                     this.getLayout(this.value[i].layout),
                     this.value[i].attributes,
                     this.value[i].key,
-                    this.currentField.collapsed
+                    this.currentField.collapsed,
+                    this.value[i].visibility
                 );
             }
         },
@@ -209,13 +211,13 @@ export default {
         /**
          * Append the given layout to flexible content's list
          */
-        addGroup(layout, attributes, key, collapsed) {
+        addGroup(layout, attributes, key, collapsed, visibility) {
             if(!layout) return;
 
             collapsed = collapsed || false;
 
             let fields = attributes || JSON.parse(JSON.stringify(layout.fields)),
-                group = new Group(layout.name, layout.title, fields, this.currentField, key, collapsed);
+                group = new Group(layout.name, layout.title, fields, this.currentField, key, collapsed, visibility);
 
             this.groups[group.key] = group;
             this.order.push(group.key);
