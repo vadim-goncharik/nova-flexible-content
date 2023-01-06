@@ -57,8 +57,10 @@
                             dusk="visible-group"
                             type="button"
                             class="group-control btn border-l border-gray-200 dark:border-gray-700 w-8 h-8 block"
+                            @click.prevent="toggleVisibility"
                             :title="group.visibility">
-                          <icon type="eye" width="16" height="16" />
+                            <icon v-if="group.visibility" type="eye" width="16" height="16" />
+                            <icon v-else type="eye-off" width="16" height="16" />
                         </button>
                         <button
                             dusk="delete-group"
@@ -162,6 +164,10 @@ export default {
          */
         moveDown() {
             this.$emit('move-down');
+        },
+
+        toggleVisibility() {
+            this.$emit('toggle-visibillity'); 
         },
 
         /**

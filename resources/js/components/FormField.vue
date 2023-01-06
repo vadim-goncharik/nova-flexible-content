@@ -22,6 +22,7 @@
                     :mode="mode"
                     @move-up="moveUp(group.key)"
                     @move-down="moveDown(group.key)"
+                    @toggle-visibillity="toggleVisibility(group.key)"
                     @remove="remove(group.key)"
                 />
             </div>
@@ -243,6 +244,13 @@ export default {
             if(index < 0 || index >= this.order.length - 1) return;
 
             this.order.splice(index + 1, 0, this.order.splice(index, 1)[0]);
+        },
+
+        /**
+         * Toggle visibility
+         */
+        toggleVisibility(key) {
+            this.groups[key].visibility = !this.groups[key].visibility;
         },
 
         /**
