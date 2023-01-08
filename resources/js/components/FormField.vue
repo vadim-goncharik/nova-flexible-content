@@ -22,7 +22,7 @@
                     :mode="mode"
                     @move-up="moveUp(group.key)"
                     @move-down="moveDown(group.key)"
-                    @toggle-visibillity="toggleVisibility(group.key)"
+                    @toggle-visibility="toggleVisibility(group.key)"
                     @remove="remove(group.key)"
                 />
             </div>

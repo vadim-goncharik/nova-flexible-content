@@ -115,7 +115,7 @@ export default {
         ...mapProps(['mode'])
     },
 
-    emits: ['move-up', 'move-down', 'remove'],
+    emits: ['move-up', 'move-down', 'toggle-visibility', 'remove'],
 
     data() {
         return {
@@ -166,8 +166,11 @@ export default {
             this.$emit('move-down');
         },
 
+        /**
+         * Toggle visibility
+         */
         toggleVisibility() {
-            this.$emit('toggle-visibillity'); 
+            this.$emit('toggle-visibility'); 
         },
 
         /**
