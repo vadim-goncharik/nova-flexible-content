@@ -140,7 +140,8 @@ export default {
                     layout: group.layout,
                     key: group.key,
                     attributes: group.attributes,
-                    visibility: group.visibility
+                    visibility: group.visibility,
+                    isFirstLevelGroup: group.isFirstLevelGroup,
                 });
 
                 // Attach the files for formData appending
@@ -190,13 +191,16 @@ export default {
             this.order.splice(0, this.order.length);
             this.groups = {};
 
+            const isFirstLevelGroup = this.currentField.attribute === 'content';
+
             for (var i = 0; i < this.value.length; i++) {
                 this.addGroup(
                     this.getLayout(this.value[i].layout),
                     this.value[i].attributes,
                     this.value[i].key,
                     this.currentField.collapsed,
-                    this.value[i].visibility
+                    this.value[i].visibility,
+                    isFirstLevelGroup
                 );
             }
         },
@@ -212,13 +216,13 @@ export default {
         /**
          * Append the given layout to flexible content's list
          */
-        addGroup(layout, attributes, key, collapsed, visibility) {
+        addGroup(layout, attributes, key, collapsed, visibility, isFirstLevelGroup) {
             if(!layout) return;
 
             collapsed = collapsed || false;
 
-            let fields = attributes || JSON.parse(JSON.stringify(layout.fields)),
-                group = new Group(layout.name, layout.title, fields, this.currentField, key, collapsed, visibility);
+            let fields = attributes || JSON.parse(JSON.stringify(layout.fields));
+            let group = new Group(layout.name, layout.title, fields, this.currentField, key, collapsed, visibility, isFirstLevelGroup);
 
             this.groups[group.key] = group;
             this.order.push(group.key);
