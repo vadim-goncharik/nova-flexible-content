@@ -19,6 +19,7 @@ class Resolver implements ResolverInterface
         return $model->$attribute = $groups->map(function ($group) {
             return [
                 'layout' => $group->name(),
+                'visibility' => $group->visibility(),
                 'key' => $group->key(),
                 'attributes' => $group->getAttributes(),
             ];
@@ -44,7 +45,7 @@ class Resolver implements ResolverInterface
                 return;
             }
 
-            return $layout->duplicateAndHydrate($item->key, (array) $item->attributes);
+            return $layout->duplicateAndHydrate($item->key, (array) $item->attributes, $item->visibility ?? true);
         })->filter()->values();
     }
 

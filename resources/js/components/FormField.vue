@@ -22,6 +22,7 @@
                     :mode="mode"
                     @move-up="moveUp(group.key)"
                     @move-down="moveDown(group.key)"
+                    @toggle-visibility="toggleVisibility(group.key)"
                     @remove="remove(group.key)"
                 />
             </div>
@@ -138,7 +139,8 @@ export default {
                 this.value.push({
                     layout: group.layout,
                     key: group.key,
-                    attributes: group.attributes
+                    attributes: group.attributes,
+                    visibility: group.visibility,
                 });
 
                 // Attach the files for formData appending
@@ -193,7 +195,8 @@ export default {
                     this.getLayout(this.value[i].layout),
                     this.value[i].attributes,
                     this.value[i].key,
-                    this.currentField.collapsed
+                    this.currentField.collapsed,
+                    this.value[i].visibility,
                 );
             }
         },
@@ -209,13 +212,13 @@ export default {
         /**
          * Append the given layout to flexible content's list
          */
-        addGroup(layout, attributes, key, collapsed) {
+        addGroup(layout, attributes, key, collapsed, visibility) {
             if(!layout) return;
 
             collapsed = collapsed || false;
 
-            let fields = attributes || JSON.parse(JSON.stringify(layout.fields)),
-                group = new Group(layout.name, layout.title, fields, this.currentField, key, collapsed);
+            let fields = attributes || JSON.parse(JSON.stringify(layout.fields));
+            let group = new Group(layout.name, layout.title, fields, this.currentField, key, collapsed, visibility);
 
             this.groups[group.key] = group;
             this.order.push(group.key);
@@ -241,6 +244,13 @@ export default {
             if(index < 0 || index >= this.order.length - 1) return;
 
             this.order.splice(index + 1, 0, this.order.splice(index, 1)[0]);
+        },
+
+        /**
+         * Toggle visibility
+         */
+        toggleVisibility(key) {
+            this.groups[key].visibility = !this.groups[key].visibility;
         },
 
         /**

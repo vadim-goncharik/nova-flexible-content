@@ -54,6 +54,15 @@
                             <icon type="arrow-down" class="align-top" width="16" height="16" />
                         </button>
                         <button
+                            dusk="visible-group"
+                            type="button"
+                            class="group-control btn border-l border-gray-200 dark:border-gray-700 w-8 h-8 block"
+                            @click.prevent="toggleVisibility"
+                            :title="group.visibility">
+                            <icon v-if="group.visibility" type="eye" width="16" height="16" />
+                            <icon v-else type="eye-off" width="16" height="16" />
+                        </button>
+                        <button
                             dusk="delete-group"
                             type="button"
                             class="group-control btn border-l border-gray-200 dark:border-gray-700 w-8 h-8 block"
@@ -106,7 +115,7 @@ export default {
         ...mapProps(['mode'])
     },
 
-    emits: ['move-up', 'move-down', 'remove'],
+    emits: ['move-up', 'move-down', 'toggle-visibility', 'remove'],
 
     data() {
         return {
@@ -155,6 +164,13 @@ export default {
          */
         moveDown() {
             this.$emit('move-down');
+        },
+
+        /**
+         * Toggle visibility
+         */
+        toggleVisibility() {
+            this.$emit('toggle-visibility'); 
         },
 
         /**
