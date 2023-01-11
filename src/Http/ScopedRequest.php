@@ -8,17 +8,20 @@ class ScopedRequest extends NovaRequest
 {
     public $group;
 
+    public $visibility;
+
     /**
      * Create a copy of the given request, only containing the group's input
      *
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $from
      * @param  array  $attributes
      * @param  string  $group
+     * @param bool $visibility
      * @return \Whitecube\NovaFlexibleContent\Http\ScopedRequest
      */
-    public static function scopeFrom(NovaRequest $from, $attributes, $group)
+    public static function scopeFrom(NovaRequest $from, $attributes, $group, $visibility = true)
     {
-        return parent::createFrom($from)->scopeInto($group, $attributes);
+        return parent::createFrom($from)->scopeInto($group, $attributes, $visibility);
     }
 
     /**
@@ -26,11 +29,13 @@ class ScopedRequest extends NovaRequest
      *
      * @param  string  $group
      * @param  array  $attributes
+     * @param bool $visibility
      * @return $this
      */
-    public function scopeInto($group, $attributes)
+    public function scopeInto($group, $attributes, $visibility = true)
     {
         $this->group = $group;
+        $this->visibility = $visibility;
 
         [$input, $files] = $this->getScopeState($group, $attributes);
 

@@ -350,6 +350,7 @@ class Flexible extends Field
             $layout = $item['layout'];
             $key = $item['key'];
             $attributes = $item['attributes'];
+            $visibility = $item['visibility'];
 
             $group = $this->findGroup($key) ?? $this->newGroup($layout, $key);
 
@@ -357,9 +358,9 @@ class Flexible extends Field
                 return;
             }
 
-            $scope = ScopedRequest::scopeFrom($request, $attributes, $key);
-            $callbacks = array_merge($callbacks, $group->fill($scope));
+            $scope = ScopedRequest::scopeFrom($request, $attributes, $key, $visibility);
 
+            $callbacks = array_merge($callbacks, $group->fill($scope));
             return $group;
         })->filter();
 

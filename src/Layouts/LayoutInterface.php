@@ -14,6 +14,8 @@ interface LayoutInterface
 
     public function key();
 
+    public function visibility();
+
     public function getResolved();
 
     public function resolve($empty = false);
@@ -22,5 +24,5 @@ interface LayoutInterface
 
     public function duplicate($key);
 
-    public function duplicateAndHydrate($key, array $attributes = []);
+    public function duplicateAndHydrate($key, array $attributes = [], bool $visibility = true);
 }
