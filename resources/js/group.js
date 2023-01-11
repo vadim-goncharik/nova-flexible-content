@@ -20,7 +20,6 @@ export default class Group {
         for (var i = 0; i < this.fields.length; i++) {
             this.fields[i].fill(formData);
         }
-
         return formData;
     }
 
@@ -32,7 +31,7 @@ export default class Group {
             layout: this.name,
             key: this.key,
             attributes: {},
-            files: {}
+            files: {},
         };
 
         for(var item of this.values()) {
@@ -78,7 +77,7 @@ export default class Group {
      */
     renameFields() {
         for (var i = this.fields.length - 1; i >= 0; i--) {
-            this.fields[i].attribute = this.key + '__' + this.fields[i].attribute;
+            this.fields[i].attribute = this.key + '__' + this.fields[i].attribute.split("__").pop();
             this.fields[i].validationKey = this.fields[i].attribute;
 
             if (this.fields[i].dependsOn) {

@@ -36,6 +36,16 @@
                 :resource-name="resourceName"
                 :resource-id="resourceId"
                 @addGroup="addGroup($event)"
+                @importGroup="importGroup"
+            />
+
+            <import-export-flexible-content-group-modal
+                v-if="isImport"
+                @close="isImport=false"
+                :message="importMessage"
+                ok="Ok"
+                :name="groupName"
+                title="Import group"
             />
 
         </template>
@@ -62,6 +72,7 @@ export default {
         layouts() {
             return this.currentField.layouts || false
         },
+
         orderedGroups() {
             return this.order.reduce((groups, key) => {
                 groups.push(this.groups[key]);
@@ -99,7 +110,10 @@ export default {
             order: [],
             groups: {},
             files: {},
-            sortableInstance: null
+            sortableInstance: null,
+            isImport: false,
+            importMessage: null,
+            groupName: null,
         };
     },
 
@@ -138,7 +152,7 @@ export default {
                 this.value.push({
                     layout: group.layout,
                     key: group.key,
-                    attributes: group.attributes
+                    attributes: group.attributes,
                 });
 
                 // Attach the files for formData appending
@@ -193,7 +207,7 @@ export default {
                     this.getLayout(this.value[i].layout),
                     this.value[i].attributes,
                     this.value[i].key,
-                    this.currentField.collapsed
+                    this.currentField.collapsed,
                 );
             }
         },
@@ -214,12 +228,44 @@ export default {
 
             collapsed = collapsed || false;
 
-            let fields = attributes || JSON.parse(JSON.stringify(layout.fields)),
-                group = new Group(layout.name, layout.title, fields, this.currentField, key, collapsed);
+            let fields = attributes || JSON.parse(JSON.stringify(layout.fields));
+            let group = new Group(layout.name, layout.title, fields, this.currentField, key, collapsed);
 
             this.groups[group.key] = group;
             this.order.push(group.key);
         },
+
+        /**
+         * Import the group from clipboard
+         */
+        async importGroup() {
+            try {
+                const text = await navigator.clipboard.readText();
+                let group = null;
+
+                try {
+                    group = JSON.parse(text)
+                } catch (error) {
+                    throw new Error('Imported data does not look like a content block');
+                }
+
+                if (!group || !group.key) throw new Error('Invalid data');
+
+                this.groupName = group.title;
+
+                const isAllowedToImport = !!this.layouts.find(layout => layout.name === group.name);
+                
+                if (!isAllowedToImport) throw new Error('block cannot be imported to this page')
+
+                this.addGroup(group, null, null, group.collapsed);
+
+                this.importMessage = "block has been successfully imported"
+            } catch (error) {
+                this.importMessage = error.message || "an error occured while importing the block"
+            } finally {
+                this.isImport = true;
+            }
+        },  
 
         /**
          * Move a group up
