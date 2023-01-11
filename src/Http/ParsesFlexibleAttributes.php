@@ -83,6 +83,7 @@ trait ParsesFlexibleAttributes
             'layout' => $group['layout'] ?? null,
             'key' => $group['key'] ?? null,
             'attributes' => [],
+            'visibility' => $group['visibility'] ?? true,
         ];
 
         foreach ($group['attributes'] ?? [] as $attribute => $value) {
