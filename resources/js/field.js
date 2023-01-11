@@ -7,4 +7,5 @@ Nova.booting((Vue) => {
     Vue.component('flexible-drop-menu', require('./components/OriginalDropMenu.vue').default)
     Vue.component('flexible-search-menu', require('./components/SearchMenu.vue').default)
     Vue.component('delete-flexible-content-group-modal', require('./components/DeleteGroupModal.vue').default)
+    Vue.component('import-export-flexible-content-group-modal', require('./components/ImportExportGroupModal.vue').default)
 })
