@@ -28,7 +28,7 @@
         </default-button>
         
         <default-button
-            v-if="field.attribute === 'content'"
+            v-if="field.allowImport"
             dusk="toggle-dropdown-import-block"
             type="button"
             class="ml-2"

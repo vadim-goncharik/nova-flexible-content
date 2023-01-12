@@ -54,7 +54,7 @@
                             <icon type="arrow-down" class="align-top" width="16" height="16" />
                         </button>
                         <button
-                            v-if="field.attribute === 'content'"
+                            v-if="field.allowExport"
                             dusk="export-group"
                             type="button"
                             class="group-control btn border-l border-gray-200 dark:border-gray-700 w-8 h-8 block"
