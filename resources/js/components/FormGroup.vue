@@ -180,9 +180,9 @@ export default {
         /**
          * Export the group to clipboard
          */
-        async exportGroup(group) {
+         exportGroup(group) {
             try {
-                await navigator.clipboard.writeText(JSON.stringify(group));
+                sessionStorage.setItem('exportImportGroup', JSON.stringify(group));
 
                 this.exportMessage = "block has been successfully exported";
             } catch (error) {

@@ -238,13 +238,16 @@ export default {
         /**
          * Import the group from clipboard
          */
-        async importGroup() {
+         importGroup() {
             try {
-                const text = await navigator.clipboard.readText();
+                const text = sessionStorage.getItem("exportImportGroup");
+
+                if (!text) throw new Error("Nothing to import");
+
                 let group = null;
 
                 try {
-                    group = JSON.parse(text)
+                    group = JSON.parse(text);
                 } catch (error) {
                     throw new Error('Imported data does not look like a content block');
                 }
@@ -254,14 +257,14 @@ export default {
                 this.groupName = group.title;
 
                 const isAllowedToImport = !!this.layouts.find(layout => layout.name === group.name);
-                
-                if (!isAllowedToImport) throw new Error('block cannot be imported to this page')
+
+                if (!isAllowedToImport) throw new Error('block cannot be imported to this page');
 
                 this.addGroup(group, null, null, group.collapsed);
 
-                this.importMessage = "block has been successfully imported"
+                this.importMessage = "block has been successfully imported";
             } catch (error) {
-                this.importMessage = error.message || "an error occured while importing the block"
+                this.importMessage = error.message || "an error occured while importing the block";
             } finally {
                 this.isImport = true;
             }
