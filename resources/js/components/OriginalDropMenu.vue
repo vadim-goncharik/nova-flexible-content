@@ -26,6 +26,16 @@
         >
             <span>{{ field.button }}</span>
         </default-button>
+        
+        <default-button
+            v-if="field.allowImport"
+            dusk="toggle-dropdown-import-block"
+            type="button"
+            class="ml-2"
+            @click="importBlock"
+        >
+            <span>Import</span>
+        </default-button>
     </div>
 </template>
 
@@ -34,7 +44,7 @@
     export default {
         props: ['layouts', 'field', 'resourceName', 'resourceId', 'resource', 'errors', 'limitCounter', 'limitPerLayoutCounter'],
 
-        emits: ['addGroup'],
+        emits: ['addGroup', 'importGroup'],
 
         data() {
             return {
@@ -107,6 +117,13 @@
                 // Reset the orientation.
                 this.dropdownOrientation = 'top';
             },
+
+            /**
+            * Import the group from clipboard
+            */
+            importBlock() {
+                this.$emit('importGroup');
+            }
         }
     }
 </script>
