@@ -120,7 +120,7 @@ trait HasFlexible
             $name = $item['layout'] ?? null;
             $key = $item['key'] ?? null;
             $visibility = $item['visibility'] ?? true;
-            $attributes = (array) $item['attributes'] ?? [];
+            $attributes = (array) ($item['attributes'] ?? []);
         } elseif (is_a($item, \stdClass::class)) {
             $name = $item->layout ?? null;
             $key = $item->key ?? null;
